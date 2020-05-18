@@ -321,17 +321,21 @@ void Graphics::DrawLine(Vei2 start, Vei2 end, Color color)
 	int xDist = std::abs(start.x - end.x);
 	int yDist = std::abs(start.y - end.y);
 
-	if (yDist > xDist) // y = mx+b
+	if (yDist > xDist) // yDist > xDist
 	{
-		float m = float(start.x - end.x) / float(start.y - end.y);
-		int b = start.x - m * start.y;
-		if (start.y > end.y)
+		float m = float(start.x - end.x) / float(start.y - end.y); // slope for x over y
+		int b = start.x - m * start.y; // y intercept
+		if (start.y > end.y) // swap to start from lower
 		{
 			std::swap(start, end);
 		}
-		for (; start.y < end.y; start.y++)
+		for (; start.y < end.y; start.y++) // draw line
 		{
-			PutPixel(m*start.y + b, start.y, color);
+			int x = m * start.y + b;
+			if (x >= 0 && x < ScreenWidth && start.y >= 0 && start.y < ScreenHeight)
+			{
+				PutPixel(x, start.y, color);
+			}
 		}
 	}
 	else
@@ -344,9 +348,22 @@ void Graphics::DrawLine(Vei2 start, Vei2 end, Color color)
 		}
 		for (; start.x < end.x; start.x++)
 		{
-			PutPixel(start.x, m * start.x + b, color);
+			int y = m * start.x + b;
+			if (start.x >= 0 && start.x < ScreenWidth && y >= 0 && y < ScreenHeight)
+			{
+				PutPixel(start.x, y, color);
+			}
 		}
 	}
+}
+
+void Graphics::DrawClosedPolyline(const std::vector<Vec2>& verts, Color color)
+{
+	for (auto i = verts.begin(); i != std::prev(verts.end()); i++)
+	{
+		DrawLine(*i, *std::next(i), color);
+	}
+	DrawLine(verts.back(), verts.front(), color);
 }
 
 
