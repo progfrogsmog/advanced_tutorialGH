@@ -38,8 +38,11 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+    x = wnd.mouse.GetPosX();
+    y = wnd.mouse.GetPosY();
 }
 
 void Game::ComposeFrame()
 {
+    gfx.DrawLine({ gfx.ScreenWidth/2, gfx.ScreenHeight/2 }, { x, y }, Colors::Yellow);
 }
