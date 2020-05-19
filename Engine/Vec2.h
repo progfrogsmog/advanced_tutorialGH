@@ -23,6 +23,7 @@ public:
 		return Vec2_(x + rhs.x, y + rhs.y);
 	}
 
+
 	Vec2_& operator+=(const Vec2_& rhs)
 	{
 		return *this = *this + rhs;
@@ -46,6 +47,11 @@ public:
 	Vec2_& operator-=(const Vec2_& rhs)
 	{
 		return *this = *this - rhs;
+	}
+
+	Vec2_ operator-() const
+	{
+		return Vec2_(-x, -y);
 	}
 
 	bool operator==(const Vec2_& rhs)
