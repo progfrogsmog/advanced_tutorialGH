@@ -34,10 +34,18 @@ public:
 	}
 	Drawable GetDrawable() const
 	{
-		Drawable d(model, color);
+		Drawable d(*this);
 		d.Scale(scale);
 		d.Translate(pos);
 		return d;
+	}
+	std::vector<Vec2> GetModel() const
+	{
+		return model;
+	}
+	const Color& GetColor() const
+	{
+		return color;
 	}
 private:
 	Color color;

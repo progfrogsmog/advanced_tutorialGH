@@ -2,14 +2,14 @@
 #include "Vec2.h"
 #include <vector>
 #include "Graphics.h"
+#include "Entity.h"
 
 class Drawable
 {
 public:
-	Drawable(std::vector<Vec2> model, Color c)
+	Drawable(const Entity& entity)
 		:
-		model(std::move(model)),
-		color(c)
+		entity(entity)
 	{}
 	void Scale(float scale_in)
 	{
@@ -30,17 +30,17 @@ public:
 	}
 	void Render(Graphics& gfx)
 	{
+		auto model = entity.GetModel();
 		for (auto& v : model)
 		{
 			v.x *= scale_x;
 			v.y *= scale_y;
 			v += translation;
 		}
-		gfx.DrawClosedPolyline(model, color);
+		gfx.DrawClosedPolyline(model, entity.GetColor());
 	}
 private:
-	Color color;
-	std::vector<Vec2> model;
+	const Entity& entity;
 	float scale_x = 1.0f;
 	float scale_y = 1.0f;
 	Vec2 translation = { 0.0f, 0.0f };
